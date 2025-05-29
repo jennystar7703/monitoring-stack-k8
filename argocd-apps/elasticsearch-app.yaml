@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: elasticsearch
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/jennystar7703/monitoring-stack-k8.git' # YOUR REPO URL
+    targetRevision: HEAD # Or 'main'
+    path: helm-charts/elasticsearch # Path to the Elasticsearch chart
+    helm:
+      valueFiles:
+        # Paths are relative to the 'path' above, within the repoURL
+        # So, we need to go up from helm-charts/elasticsearch to the root, then to my-values
+        - ../my-values/elasticsearch-values.yaml
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: logging # Target namespace for Elasticsearch
+  syncPolicy:
+    automated:
+      prune: true    # Deletes resources removed from Git
+      selfHeal: true # Reverts changes made directly in the cluster
+    syncOptions:
+      - CreateNamespace=true # If the chart doesn't create it, ArgoCD will try

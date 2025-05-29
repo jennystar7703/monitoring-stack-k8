@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus-stack
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/jennystar7703/monitoring-stack-k8.git' # YOUR REPO URL
+    targetRevision: HEAD
+    path: helm-charts/kube-prometheus-stack
+    helm:
+      valueFiles:
+        - ../helm-charts/kube-prometheus-stack/values.yaml # Path to your values
+      # If you don't have custom values, you can omit valueFiles or point to an empty file.
+      # You can also set specific values directly here:
+      # values: |
+      #   grafana:
+      #     adminPassword: yourSuperSecretPassword
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: monitoring # Target namespace for Prometheus stack
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

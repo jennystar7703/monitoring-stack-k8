@@ -1,0 +1,29 @@
+name: Apply ArgoCD Applications
+
+on:
+  push:
+    branches:
+      - main # Or 'master', or whatever your default branch is
+    paths: # Only trigger if files in argocd-apps change
+      - 'argocd-apps/**'
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  apply_manifests:
+    name: Apply ArgoCD App Manifests
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Kubeconfig
+      uses: azure/k8s-actions/aks-set-context@master # Generic, works for any cluster
+      with:
+        kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }} # Kubeconfig as a base64 encoded secret
+
+    - name: Apply ArgoCD Application manifests
+      run: |
+        kubectl config current-context # Verify context
+        kubectl apply -n argocd -f argocd-apps/
+        echo "ArgoCD Application manifests applied."
