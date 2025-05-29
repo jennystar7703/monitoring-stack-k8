@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/jennystar7703/monitoring-stack-k8.git' # YOUR REPO URL
-    targetRevision: hotfix/EFK-setup 5de10a3
+    targetRevision: hotfix/EFK-setup
     #targetRevision: HEAD # Or 'main'
     path: helm-charts/elasticsearch # Path to the Elasticsearch chart
     helm:
