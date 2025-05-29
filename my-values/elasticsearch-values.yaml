@@ -160,7 +160,7 @@ readinessProbe:
   timeoutSeconds: 10
 
 # clusterHealthCheckParams from your values.yaml snippet
-clusterHealthCheckParams: "wait_for_status=green&timeout=1s"
+clusterHealthCheckParams: "wait_for_status=yellow&timeout=10s"
 
 # schedulerName is empty in your provided values.yaml
 schedulerName: ""
