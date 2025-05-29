@@ -1,0 +1,23 @@
+# cluster-role-viewer.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dashboard-cluster-viewer
+rules:
+- apiGroups: ["", "apps", "batch", "extensions", "policy", "networking.k8s.io", "storage.k8s.io", "admissionregistration.k8s.io", "apiextensions.k8s.io"] # Add more API groups if needed
+  resources: ["*"] # Grants access to ALL resources
+  verbs: ["get", "list", "watch"]
+---
+# cluster-role-binding-viewer.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: dashboard-cluster-viewer-binding
+subjects:
+- kind: ServiceAccount
+  name: dashboard-reader # The service account you created
+  namespace: logging     # Its namespace
+roleRef:
+  kind: ClusterRole
+  name: dashboard-cluster-viewer # Reference the ClusterRole
+  apiGroup: rbac.authorization.k8s.io

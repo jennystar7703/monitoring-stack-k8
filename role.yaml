@@ -1,0 +1,26 @@
+# role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: logging
+  name: dashboard-reader-role
+rules:
+- apiGroups: ["", "apps"]
+  resources: ["pods", "pods/log", "deployments", "services", "replicasets", "statefulsets"] # ADD statefulsets
+  verbs: ["get", "list", "watch"]
+  verbs: ["get", "list", "watch"]
+---
+# rolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  namespace: logging
+  name: dashboard-reader-rolebinding
+subjects:
+- kind: ServiceAccount
+  name: dashboard-reader
+  namespace: logging
+roleRef:
+  kind: Role
+  name: dashboard-reader-role
+  apiGroup: rbac.authorization.k8s.io
