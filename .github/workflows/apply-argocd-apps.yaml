@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - main # Or 'master', or whatever your default branch is
-    paths: # Only trigger if files in argocd-apps change
+    paths:
       - 'argocd-apps/**'
-  workflow_dispatch: # Allows manual triggering
+  workflow_dispatch:
 
 jobs:
   apply_manifests:
@@ -18,9 +18,9 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Set up Kubeconfig
-      uses: azure/k8s-actions/aks-set-context@master # Generic, works for any cluster
+      uses: kPherox/k8s-setup-kubeconfig@v1 # <--- CHANGED ACTION
       with:
-        kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }} # Kubeconfig as a base64 encoded secret
+        kubeconfig-data: ${{ secrets.KUBE_CONFIG_DATA }} # <--- CORRECT INPUT NAME
 
     - name: Apply ArgoCD Application manifests
       run: |
