@@ -3,7 +3,7 @@ name: Apply ArgoCD Applications
 on:
   push:
     branches:
-      - main # Or 'master', or whatever your default branch is
+      - main
     paths:
       - 'argocd-apps/**'
   workflow_dispatch:
@@ -17,14 +17,23 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Debug Secret Presence # <--- ADDED DEBUG STEP
+      run: |
+        if [ -z "${{ secrets.KUBE_CONFIG_DATA }}" ]; then
+          echo "::error::KUBE_CONFIG_DATA secret is empty or not being passed!"
+          exit 1
+        else
+          echo "KUBE_CONFIG_DATA secret appears to be set."
+        fi
+
     - name: Set up Kubeconfig
       uses: azure/k8s-set-context@v3
       with:
         method: kubeconfig
-        kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }} # <---  input name
+        kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }}
 
     - name: Apply ArgoCD Application manifests
       run: |
-        kubectl config current-context # Verify context
+        kubectl config current-context
         kubectl apply -n argocd -f argocd-apps/
         echo "ArgoCD Application manifests applied."
