@@ -1,0 +1,42 @@
+# ~/k8-install/helm-charts/elasticsearch-values.yaml
+replicas: 1
+minimumMasterNodes: 1
+
+# Use HTTP for simplicity in this restart. Add TLS later if needed.
+protocol: http
+httpPort: 9200
+
+# Disable trial license, use basic
+trialLicense:
+  enabled: false
+
+# Persistence - K3s default storage class is 'local-path'
+# You might need to adjust size or storageClassName if you have other preferences
+volumeClaimTemplate:
+  accessModes: [ "ReadWriteOnce" ]
+  storageClassName: "local-path" # Or your preferred SC
+  resources:
+    requests:
+      storage: 20Gi # Adjust as needed
+
+# You can set resource requests/limits if desired
+# resources:
+#   requests:
+#     cpu: "100m"
+#     memory: "2Gi"
+#   limits:
+#     cpu: "1000m"
+#     memory: "2Gi"
+
+# For K3s, you might need to explicitly set this if default PSPs are restrictive
+# or if you don't have PSPs enabled.
+# podSecurityContext:
+#   fsGroup: 1000
+# securityContext:
+#   capabilities:
+#     add:
+#     - IPC_LOCK
+#     - SYS_RESOURCE
+
+# Ensure the chart creates the elastic user password secret
+createElasticUserSecret: true
