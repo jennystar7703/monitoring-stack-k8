@@ -1,0 +1,197 @@
+# replicas, minimumMasterNodes and createCert are explicitly set in your provided values.yaml
+replicas: 1
+minimumMasterNodes: 1 # Good for single node
+createCert: true
+
+# esConfig is empty in your provided values.yaml
+esConfig: {}
+
+# esJvmOptions is empty in your provided values.yaml
+esJvmOptions: {}
+
+# extraEnvs from your values.yaml snippet
+extraEnvs:
+  - name: ELASTIC_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: elasticsearch-master-credentials # This matches your original values.yaml
+        key: password
+
+# envFrom is empty in your provided values.yaml
+envFrom: []
+
+# secretMounts is empty in your provided values.yaml
+secretMounts: []
+
+# hostAliases is empty in your provided values.yaml
+hostAliases: []
+
+# podAnnotations is empty in your provided values.yaml
+podAnnotations: {}
+
+# labels is empty in your provided values.yaml
+labels: {}
+
+# esJavaOpts is empty in your provided values.yaml
+esJavaOpts: ""
+
+# resources from your values.yaml snippet
+resources:
+  requests:
+    cpu: "1000m"
+    memory: "4Gi"
+  limits:
+    cpu: "1000m"
+    memory: "4Gi"
+
+
+# volumeClaimTemplate is the key change here
+volumeClaimTemplate:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 20Gi 
+  # The storageClassName might be defaulted by the chart if not specified,
+  # or you can explicitly add it if 'local-path' is what you use:
+  storageClassName: local-path # Explicitly set this if it's required for your environment
+
+# createElasticUserSecret from your values.yaml snippet
+createElasticUserSecret: true
+
+# rbac settings from your values.yaml snippet
+rbac:
+  create: false
+  serviceAccountAnnotations: {}
+  serviceAccountName: ""
+  automountToken: true
+
+# podSecurityPolicy settings from your values.yaml snippet
+podSecurityPolicy:
+  create: false
+  name: ""
+  spec:
+    privileged: true
+    fsGroup:
+      rule: RunAsAny
+    runAsUser:
+      rule: RunAsAny
+    seLinux:
+      rule: RunAsAny
+    supplementalGroups:
+      rule: RunAsAny
+    volumes:
+      - secret
+      - configMap
+      - persistentVolumeClaim
+      - emptyDir
+
+# persistence settings from your values.yaml snippet
+persistence:
+  enabled: true
+  labels:
+    enabled: false # This might be misaligned with chart expectations, often omitted or true
+  annotations: {}
+
+
+# priorityClassName is empty in your provided values.yaml
+priorityClassName: ""
+
+# antiAffinityTopologyKey and antiAffinity from your values.yaml snippet
+antiAffinityTopologyKey: "kubernetes.io/hostname"
+antiAffinity: "hard"
+
+# nodeAffinity is empty in your provided values.yaml
+nodeAffinity: {}
+
+# podManagementPolicy from your values.yaml snippet
+podManagementPolicy: "Parallel"
+
+# enableServiceLinks from your values.yaml snippet
+enableServiceLinks: true
+
+# protocol, httpPort, transportPort from your values.yaml snippet
+protocol: https
+httpPort: 9200
+transportPort: 9300
+
+# service settings from your values.yaml snippet
+service:
+  enabled: true
+  labels: {}
+  labelsHeadless: {}
+  type: ClusterIP
+  publishNotReadyAddresses: false
+  nodePort: ""
+  annotations: {}
+  httpPortName: http
+  transportPortName: transport
+  loadBalancerIP: ""
+  loadBalancerSourceRanges: []
+  externalTrafficPolicy: ""
+
+# maxUnavailable from your values.yaml snippet
+maxUnavailable: 1
+
+# podSecurityContext from your values.yaml snippet
+podSecurityContext:
+  fsGroup: 1000
+  runAsUser: 1000
+
+# securityContext from your values.yaml snippet
+securityContext:
+  capabilities:
+    drop:
+      - ALL
+  runAsNonRoot: true
+  runAsUser: 1000
+
+# terminationGracePeriod from your values.yaml snippet
+terminationGracePeriod: 120
+
+# sysctlVmMaxMapCount from your values.yaml snippet
+sysctlVmMaxMapCount: 262144
+
+# readinessProbe from your values.yaml snippet
+readinessProbe:
+  failureThreshold: 3
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  successThreshold: 3
+  timeoutSeconds: 5
+
+# clusterHealthCheckParams from your values.yaml snippet
+clusterHealthCheckParams: "wait_for_status=green&timeout=1s"
+
+# schedulerName is empty in your provided values.yaml
+schedulerName: ""
+
+# imagePullSecrets, nodeSelector, tolerations are empty
+imagePullSecrets: []
+nodeSelector: {}
+tolerations: []
+
+# nameOverride, fullnameOverride, healthNameOverride are empty
+nameOverride: ""
+fullnameOverride: ""
+healthNameOverride: ""
+
+# lifecycle is empty in your provided values.yaml
+lifecycle: {}
+
+# sysctlInitContainer from your values.yaml snippet
+sysctlInitContainer:
+  enabled: true
+
+# keystore is empty in your provided values.yaml
+keystore: []
+
+# networkPolicy from your values.yaml snippet
+networkPolicy:
+  http:
+    enabled: false
+  transport:
+    enabled: false
+
+# tests from your values.yaml snippet
+tests:
+  enabled: true

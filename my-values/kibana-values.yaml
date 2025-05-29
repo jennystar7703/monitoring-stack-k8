@@ -1,0 +1,40 @@
+service:
+  type: NodePort
+  port: 5601
+
+resources:
+  requests:
+    cpu: "200m"
+    memory: "200Mi"
+  limits:
+    cpu: "1000m"
+    memory: "2Gi"
+
+# ... (your existing service, resources, elasticsearchHosts)
+
+elasticsearch:
+  # This is usually where you specify the connection settings for Kibana
+  # The exact structure depends on the Kibana Helm chart.
+  # Some charts use 'hosts' instead of 'elasticsearchHosts' at the top level.
+  # Ensure the protocol is https here.
+  hosts: ["https://elasticsearch-master.logging:9200"] # Often preferred over the top-level elasticsearchHosts for some charts
+
+  # --- SSL Configuration ---
+  ssl:
+    enabled: true # Explicitly enable SSL if the chart requires it
+    certificateAuthorities: ["/usr/share/kibana/config/certs/ca.crt"] # Path inside the Kibana container where CA will be mounted
+
+  serviceAccountToken:
+    enabled: true 
+
+
+# --- Volume mounts for the Elasticsearch CA Certificate ---
+extraVolumeMounts:
+  - name: elasticsearch-certs # Name of the volume to be mounted
+    mountPath: /usr/share/kibana/config/certs # Desired mount path inside Kibana container
+    readOnly: true
+
+extraVolumes:
+  - name: elasticsearch-certs # Volume name for the CA cert secret
+    secret:
+      secretName: elasticsearch-master-certs # The actual Kubernetes secret name for Elasticsearch's CA
