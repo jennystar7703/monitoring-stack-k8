@@ -1,3 +1,5 @@
+# my-values/kibana-values.yaml
+
 service:
   type: NodePort
   port: 5601
@@ -10,35 +12,36 @@ resources:
     cpu: "1000m"
     memory: "2Gi"
 
-# ... (your existing service, resources, elasticsearchHosts)
+# Configuration for Kibana itself regarding Elasticsearch connection
+elasticsearchHosts: ["https://elasticsearch-master.logging:9200"] 
 
-elasticsearch:
-  # This is usually where you specify the connection settings for Kibana
-  # The exact structure depends on the Kibana Helm chart.
-  # Some charts use 'hosts' instead of 'elasticsearchHosts' at the top level.
-  # Ensure the protocol is https here.
-  hosts: ["https://elasticsearch-master.logging:9200"] # Often preferred over the top-level elasticsearchHosts for some charts
-  username: "elastic"
-  passwordFromSecret:
-    name: elasticsearch-master-credentials
-    key: password
+elasticsearchSSL:
+  certificateAuthorities: ["/usr/share/kibana/config/certs/ca.crt"]
+  # verificationMode: "certificate" # Optional, but good practice
 
-  # --- SSL Configuration ---
-  ssl:
-    enabled: true # Explicitly enable SSL if the chart requires it
-    certificateAuthorities: ["/usr/share/kibana/config/certs/ca.crt"] # Path inside the Kibana container where CA will be mounted
+# Explicitly set the environment variables Kibana will use
+# This often overrides or supplements other settings.
+extraEnvs:
+  - name: ELASTICSEARCH_USERNAME
+    value: "elastic"
+  - name: ELASTICSEARCH_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: elasticsearch-master-credentials # The K8s secret name
+        key: password                         # The key within that secret
+  # Some charts might need ELASTICSEARCH_HOSTS and SSL CA also as env vars
+  # if the top-level keys don't translate automatically, or to be absolutely sure.
+  - name: ELASTICSEARCH_HOSTS # Often an array, but some Kibana versions take comma-separated string
+    value: "https://elasticsearch-master.logging:9200"
+  - name: ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES
+    value: "/usr/share/kibana/config/certs/ca.crt"
 
-  serviceAccountToken:
-    enabled: true 
-
-
-# --- Volume mounts for the Elasticsearch CA Certificate ---
+# Volume mounts for the Elasticsearch CA Certificate (this part is likely correct)
 extraVolumeMounts:
-  - name: elasticsearch-certs # Name of the volume to be mounted
-    mountPath: /usr/share/kibana/config/certs # Desired mount path inside Kibana container
+  - name: elasticsearch-certs
+    mountPath: /usr/share/kibana/config/certs
     readOnly: true
-
 extraVolumes:
-  - name: elasticsearch-certs # Volume name for the CA cert secret
+  - name: elasticsearch-certs
     secret:
-      secretName: elasticsearch-master-certs # The actual Kubernetes secret name for Elasticsearch's CA
+      secretName: elasticsearch-master-certs
