@@ -13,7 +13,7 @@ spec:
     path: helm-charts/kube-prometheus-stack
     helm:
       valueFiles:
-        - ../helm-charts/kube-prometheus-stack/values.yaml # Path to your values
+        - values.yaml # Path to your values
       # If you don't have custom values, you can omit valueFiles or point to an empty file.
       # You can also set specific values directly here:
       # values: |
