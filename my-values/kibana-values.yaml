@@ -12,16 +12,10 @@ resources:
     cpu: "1000m"
     memory: "2Gi"
 
-# Configuration for Kibana itself regarding Elasticsearch connection
-elasticsearchHosts: ["https://elasticsearch-master.logging:9200"] 
-
-elasticsearchSSL:
-  certificateAuthorities: ["/usr/share/kibana/config/certs/ca.crt"]
-  # verificationMode: "certificate" # Optional, but good practice
-
-# Explicitly set the environment variables Kibana will use
-# This often overrides or supplements other settings.
+# Explicitly set the environment variables Kibana and its hooks will use
 extraEnvs:
+  - name: ELASTICSEARCH_HOSTS
+    value: "https://elasticsearch-master.logging:9200" # CRITICAL: Ensure this is a STRING
   - name: ELASTICSEARCH_USERNAME
     value: "elastic"
   - name: ELASTICSEARCH_PASSWORD
@@ -29,14 +23,11 @@ extraEnvs:
       secretKeyRef:
         name: elasticsearch-master-credentials # The K8s secret name
         key: password                         # The key within that secret
-  # Some charts might need ELASTICSEARCH_HOSTS and SSL CA also as env vars
-  # if the top-level keys don't translate automatically, or to be absolutely sure.
-  - name: ELASTICSEARCH_HOSTS # Often an array, but some Kibana versions take comma-separated string
-    value: "https://elasticsearch-master.logging:9200"
   - name: ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES
     value: "/usr/share/kibana/config/certs/ca.crt"
+  # Add other necessary env vars if Kibana needs them e.g. ELASTICSEARCH_SSL_VERIFICATIONMODE: "certificate"
 
-# Volume mounts for the Elasticsearch CA Certificate (this part is likely correct)
+# Volume mounts for the Elasticsearch CA Certificate
 extraVolumeMounts:
   - name: elasticsearch-certs
     mountPath: /usr/share/kibana/config/certs
@@ -44,4 +35,11 @@ extraVolumeMounts:
 extraVolumes:
   - name: elasticsearch-certs
     secret:
-      secretName: elasticsearch-master-certs
+      secretName: elasticsearch-master-certs # Secret containing ES CA cert
+
+# If your chart has specific top-level keys for SSL that work, you can use them too,
+# but env vars are often a reliable override.
+# For example:
+# elasticsearchSSL:
+#   certificateAuthorities: ["/usr/share/kibana/config/certs/ca.crt"]
+#   verificationMode: "certificate"
