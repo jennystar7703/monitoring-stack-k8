@@ -33,7 +33,7 @@ podAnnotations: {}
 labels: {}
 
 # esJavaOpts is empty in your provided values.yaml
-esJavaOpts: ""
+esJavaOpts: "Xms2g -Xmx2g"
 
 # resources from your values.yaml snippet
 resources:
@@ -153,11 +153,11 @@ sysctlVmMaxMapCount: 262144
 
 # readinessProbe from your values.yaml snippet
 readinessProbe:
-  failureThreshold: 3
-  initialDelaySeconds: 10
+  failureThreshold: 5
+  initialDelaySeconds: 30
   periodSeconds: 10
   successThreshold: 3
-  timeoutSeconds: 5
+  timeoutSeconds: 10
 
 # clusterHealthCheckParams from your values.yaml snippet
 clusterHealthCheckParams: "wait_for_status=green&timeout=1s"
