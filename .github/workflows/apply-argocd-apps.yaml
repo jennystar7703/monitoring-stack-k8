@@ -21,8 +21,8 @@ jobs:
       uses: azure/k8s-set-context@v3
       with:
         method: kubeconfig
-        kubeconfig-data: ${{ secrets.KUBE_CONFIG_DATA }} # <---  input name
-        
+        kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }} # <---  input name
+
     - name: Apply ArgoCD Application manifests
       run: |
         kubectl config current-context # Verify context
