@@ -18,6 +18,10 @@ elasticsearch:
   # Some charts use 'hosts' instead of 'elasticsearchHosts' at the top level.
   # Ensure the protocol is https here.
   hosts: ["https://elasticsearch-master.logging:9200"] # Often preferred over the top-level elasticsearchHosts for some charts
+  username: "elastic"
+  passwordFromSecret:
+    name: elasticsearch-master-credentials
+    key: password
 
   # --- SSL Configuration ---
   ssl:
