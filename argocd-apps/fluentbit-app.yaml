@@ -13,7 +13,7 @@ spec:
     path: helm-charts/fluent-bit
     helm:
       valueFiles:
-        - ../my-values/fluentbit-values.yaml
+        - ../../my-values/fluentbit-values.yaml
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: logging

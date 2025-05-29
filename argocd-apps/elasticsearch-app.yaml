@@ -15,7 +15,7 @@ spec:
       valueFiles:
         # Paths are relative to the 'path' above, within the repoURL
         # So, we need to go up from helm-charts/elasticsearch to the root, then to my-values
-        - ../my-values/elasticsearch-values.yaml
+        - ../../my-values/elasticsearch-values.yaml
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: logging # Target namespace for Elasticsearch

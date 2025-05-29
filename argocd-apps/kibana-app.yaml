@@ -13,7 +13,7 @@ spec:
     path: helm-charts/kibana
     helm:
       valueFiles:
-        - ../my-values/kibana-values.yaml
+        - ../../my-values/kibana-values.yaml
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: logging
