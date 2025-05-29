@@ -18,10 +18,9 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Set up Kubeconfig
-      uses: kPherox/k8s-setup-kubeconfig@v1 # <--- CHANGED ACTION
+      uses: kPherox/k8s-setup-kubeconfig@v1 
       with:
-        kubeconfig-data: ${{ secrets.KUBE_CONFIG_DATA }} # <--- CORRECT INPUT NAME
-
+        kubeconfig-data: ${{ secrets.KUBE_CONFIG_DATA }} # <---  input name
     - name: Apply ArgoCD Application manifests
       run: |
         kubectl config current-context # Verify context
