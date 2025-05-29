@@ -33,7 +33,7 @@ podAnnotations: {}
 labels: {}
 
 # esJavaOpts is empty in your provided values.yaml
-esJavaOpts: "Xms2g -Xmx2g"
+esJavaOpts: "-Xms2g -Xmx2g"
 
 # resources from your values.yaml snippet
 resources:
