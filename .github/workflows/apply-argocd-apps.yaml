@@ -35,5 +35,4 @@ jobs:
     - name: Apply ArgoCD Application manifests
       run: |
         kubectl config current-context
-        kubectl apply -n argocd -f argocd-apps/
         echo "ArgoCD Application manifests applied."
