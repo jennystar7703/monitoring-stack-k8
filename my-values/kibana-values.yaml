@@ -16,13 +16,20 @@ resources:
 extraEnvs:
   - name: ELASTICSEARCH_HOSTS
     value: "https://elasticsearch-master.logging:9200" # CRITICAL: Ensure this is a STRING
-  - name: ELASTICSEARCH_USERNAME
-    value: "elastic"
-  - name: ELASTICSEARCH_PASSWORD
+  #- name: ELASTICSEARCH_USERNAME
+  #  value: "elastic"
+  #- name: ELASTICSEARCH_PASSWORD
+  #  valueFrom:
+  #    secretKeyRef:
+  #      name: elasticsearch-master-credentials # The K8s secret name
+  #      key: password                         # The key within that secret
+  #- name: ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES
+  #  value: "/usr/share/kibana/config/certs/ca.crt"
+  - name: ELASTICSEARCH_SERVICEACCOUNTTOKEN # VERIFY THIS ENV VAR NAME FROM YOUR CHART'S DOCS/TEMPLATES
     valueFrom:
       secretKeyRef:
-        name: elasticsearch-master-credentials # The K8s secret name
-        key: password                         # The key within that secret
+        name: kibana-kibana-es-token # The secret created by the pre-install job
+        key: token # The key in the secret (usually 'token' or 'apikey')
   - name: ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES
     value: "/usr/share/kibana/config/certs/ca.crt"
   # Add other necessary env vars if Kibana needs them e.g. ELASTICSEARCH_SSL_VERIFICATIONMODE: "certificate"
