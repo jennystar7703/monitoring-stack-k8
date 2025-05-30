@@ -9,8 +9,13 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/jennystar7703/monitoring-stack-k8.git' # YOUR REPO URL
+<<<<<<< HEAD
     #targetRevision: HEAD
     targetRevision: hotfix/EFK-setup
+=======
+    #targetRevision: hotfix/EFK-setup
+    targetRevision: HEAD # Or 'main'
+>>>>>>> hotfix/EFK-setup
     path: helm-charts/kibana
     helm:
       valueFiles:
