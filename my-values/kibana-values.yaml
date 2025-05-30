@@ -30,11 +30,12 @@ extraEnvs:
       secretKeyRef:
         name: kibana-kibana-es-token # The secret created by the pre-install job
         key: token # The key in the secret (usually 'token' or 'apikey')
-  - name: ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES
-    value: "/usr/share/kibana/config/certs/ca.crt"
+  #- name: ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES
+  #  value: "/usr/share/kibana/config/certs/ca.crt"
   # Add other necessary env vars if Kibana needs them e.g. ELASTICSEARCH_SSL_VERIFICATIONMODE: "certificate"
 
 # Volume mounts for the Elasticsearch CA Certificate
+
 extraVolumes:
   - name: kibana-es-ca-certs-volume # Ensure this name is unique if your chart creates other volumes
     secret:
