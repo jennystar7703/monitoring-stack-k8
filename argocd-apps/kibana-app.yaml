@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/jennystar7703/monitoring-stack-k8.git' # YOUR REPO URL
-    targetRevision: main
+    targetRevision: HEAD
     path: helm-charts/kibana
     helm:
       valueFiles:
