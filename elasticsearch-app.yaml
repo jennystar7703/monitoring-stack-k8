@@ -1,0 +1,261 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{},"finalizers":["resources-finalizer.argocd.argoproj.io"],"name":"elasticsearch","namespace":"argocd"},"spec":{"destination":{"namespace":"logging","server":"https://kubernetes.default.svc"},"project":"default","source":{"helm":{"valueFiles":["../../my-values/elasticsearch-values.yaml"]},"path":"helm-charts/elasticsearch","repoURL":"https://github.com/jennystar7703/monitoring-stack-k8.git","targetRevision":"hotfix/EFK-setup"},"syncPolicy":{"automated":{"prune":true,"selfHeal":true},"syncOptions":["CreateNamespace=true"]}}}
+  creationTimestamp: "2025-05-29T01:58:29Z"
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  generation: 313
+  name: elasticsearch
+  namespace: argocd
+  resourceVersion: "383904"
+  uid: 96613ad0-9fb6-4fa8-8923-197cd3ac3eea
+spec:
+  destination:
+    namespace: logging
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    helm:
+      valueFiles:
+      - ../../my-values/elasticsearch-values.yaml
+    path: helm-charts/elasticsearch
+    repoURL: https://github.com/jennystar7703/monitoring-stack-k8.git
+    targetRevision: hotfix/EFK-setup
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    - Suspend=true
+status:
+  controllerNamespace: argocd
+  health:
+    lastTransitionTime: "2025-05-29T07:32:50Z"
+    status: Progressing
+  history:
+  - deployStartedAt: "2025-05-29T03:13:53Z"
+    deployedAt: "2025-05-29T03:13:54Z"
+    id: 3
+    initiatedBy:
+      automated: true
+    revision: 482e07625be17624782d982c640b09cc0e6f2842
+    source:
+      helm:
+        valueFiles:
+        - ../../my-values/elasticsearch-values.yaml
+      path: helm-charts/elasticsearch
+      repoURL: https://github.com/jennystar7703/monitoring-stack-k8.git
+      targetRevision: HEAD
+  - deployStartedAt: "2025-05-29T03:19:21Z"
+    deployedAt: "2025-05-29T03:19:22Z"
+    id: 4
+    initiatedBy:
+      automated: true
+    revision: fc6da9e14edec3358176a12022baf62d10463181
+    source:
+      helm:
+        valueFiles:
+        - ../../my-values/elasticsearch-values.yaml
+      path: helm-charts/elasticsearch
+      repoURL: https://github.com/jennystar7703/monitoring-stack-k8.git
+      targetRevision: HEAD
+  - deployStartedAt: "2025-05-29T04:51:52Z"
+    deployedAt: "2025-05-29T04:51:53Z"
+    id: 5
+    initiatedBy:
+      automated: true
+    revision: 3d71300338af5f04e55341a3e395ba479b4b4b4d
+    source:
+      helm:
+        valueFiles:
+        - ../../my-values/elasticsearch-values.yaml
+      path: helm-charts/elasticsearch
+      repoURL: https://github.com/jennystar7703/monitoring-stack-k8.git
+      targetRevision: HEAD
+  - deployStartedAt: "2025-05-29T04:56:05Z"
+    deployedAt: "2025-05-29T04:56:06Z"
+    id: 6
+    initiatedBy:
+      automated: true
+    revision: 37ab8868ae6ef45eece28d7eba368b5727b183f6
+    source:
+      helm:
+        valueFiles:
+        - ../../my-values/elasticsearch-values.yaml
+      path: helm-charts/elasticsearch
+      repoURL: https://github.com/jennystar7703/monitoring-stack-k8.git
+      targetRevision: HEAD
+  - deployStartedAt: "2025-05-29T05:14:43Z"
+    deployedAt: "2025-05-29T05:15:55Z"
+    id: 7
+    initiatedBy:
+      automated: true
+    revision: 2073033403f8f2a39091703b161a28d4383f0481
+    source:
+      helm:
+        valueFiles:
+        - ../../my-values/elasticsearch-values.yaml
+      path: helm-charts/elasticsearch
+      repoURL: https://github.com/jennystar7703/monitoring-stack-k8.git
+      targetRevision: HEAD
+  - deployStartedAt: "2025-05-29T05:30:35Z"
+    deployedAt: "2025-05-29T05:30:36Z"
+    id: 8
+    initiatedBy:
+      automated: true
+    revision: dbddd00a6f1847b264e17f5e423157d584f59fe6
+    source:
+      helm:
+        valueFiles:
+        - ../../my-values/elasticsearch-values.yaml
+      path: helm-charts/elasticsearch
+      repoURL: https://github.com/jennystar7703/monitoring-stack-k8.git
+      targetRevision: HEAD
+  - deployStartedAt: "2025-05-29T05:50:06Z"
+    deployedAt: "2025-05-29T05:50:07Z"
+    id: 9
+    initiatedBy:
+      username: admin
+    revision: dbddd00a6f1847b264e17f5e423157d584f59fe6
+    source:
+      helm:
+        valueFiles:
+        - ../../my-values/elasticsearch-values.yaml
+      path: helm-charts/elasticsearch
+      repoURL: https://github.com/jennystar7703/monitoring-stack-k8.git
+      targetRevision: HEAD
+  - deployStartedAt: "2025-05-29T06:17:40Z"
+    deployedAt: "2025-05-29T06:17:41Z"
+    id: 10
+    initiatedBy:
+      automated: true
+    revision: 90e31dd84a4824d1f74a9dda1f5289344b9985ee
+    source:
+      helm:
+        valueFiles:
+        - ../../my-values/elasticsearch-values.yaml
+      path: helm-charts/elasticsearch
+      repoURL: https://github.com/jennystar7703/monitoring-stack-k8.git
+      targetRevision: HEAD
+  - deployStartedAt: "2025-05-29T07:25:45Z"
+    deployedAt: "2025-05-29T07:25:46Z"
+    id: 11
+    initiatedBy:
+      automated: true
+    revision: 8804c6a0660610bdb5e4dacd3fcecb3597213c73
+    source:
+      helm:
+        valueFiles:
+        - ../../my-values/elasticsearch-values.yaml
+      path: helm-charts/elasticsearch
+      repoURL: https://github.com/jennystar7703/monitoring-stack-k8.git
+      targetRevision: hotfix/EFK-setup
+  - deployStartedAt: "2025-05-29T07:30:13Z"
+    deployedAt: "2025-05-29T07:30:14Z"
+    id: 12
+    initiatedBy:
+      username: admin
+    revision: 8804c6a0660610bdb5e4dacd3fcecb3597213c73
+    source:
+      helm:
+        valueFiles:
+        - ../../my-values/elasticsearch-values.yaml
+      path: helm-charts/elasticsearch
+      repoURL: https://github.com/jennystar7703/monitoring-stack-k8.git
+      targetRevision: hotfix/EFK-setup
+  operationState:
+    finishedAt: "2025-05-29T07:51:20Z"
+    message: successfully synced (all tasks run)
+    operation:
+      initiatedBy:
+        automated: true
+      retry:
+        limit: 5
+      sync:
+        autoHealAttemptsCount: 1
+        prune: true
+        resources:
+        - kind: Secret
+          name: elasticsearch-master-credentials
+        revision: 8804c6a0660610bdb5e4dacd3fcecb3597213c73
+        syncOptions:
+        - CreateNamespace=true
+    phase: Succeeded
+    startedAt: "2025-05-29T07:51:20Z"
+    syncResult:
+      resources:
+      - group: ""
+        hookPhase: Running
+        kind: Secret
+        message: secret/elasticsearch-master-credentials configured
+        name: elasticsearch-master-credentials
+        namespace: logging
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      revision: 8804c6a0660610bdb5e4dacd3fcecb3597213c73
+      source:
+        helm:
+          valueFiles:
+          - ../../my-values/elasticsearch-values.yaml
+        path: helm-charts/elasticsearch
+        repoURL: https://github.com/jennystar7703/monitoring-stack-k8.git
+        targetRevision: hotfix/EFK-setup
+  reconciledAt: "2025-05-29T07:53:24Z"
+  resourceHealthSource: appTree
+  resources:
+  - kind: Secret
+    name: elasticsearch-master-certs
+    namespace: logging
+    status: Synced
+    version: v1
+  - kind: Secret
+    name: elasticsearch-master-credentials
+    namespace: logging
+    status: Synced
+    version: v1
+  - kind: Service
+    name: elasticsearch-master
+    namespace: logging
+    status: Synced
+    version: v1
+  - kind: Service
+    name: elasticsearch-master-headless
+    namespace: logging
+    status: Synced
+    version: v1
+  - group: apps
+    kind: StatefulSet
+    name: elasticsearch-master
+    namespace: logging
+    status: Synced
+    version: v1
+  - group: policy
+    kind: PodDisruptionBudget
+    name: elasticsearch-master-pdb
+    namespace: logging
+    status: Synced
+    version: v1
+  sourceHydrator: {}
+  sourceType: Helm
+  summary:
+    images:
+    - docker.elastic.co/elasticsearch/elasticsearch:8.5.1
+  sync:
+    comparedTo:
+      destination:
+        namespace: logging
+        server: https://kubernetes.default.svc
+      source:
+        helm:
+          valueFiles:
+          - ../../my-values/elasticsearch-values.yaml
+        path: helm-charts/elasticsearch
+        repoURL: https://github.com/jennystar7703/monitoring-stack-k8.git
+        targetRevision: hotfix/EFK-setup
+    revision: 8804c6a0660610bdb5e4dacd3fcecb3597213c73
+    status: Synced

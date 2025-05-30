@@ -28,14 +28,15 @@ extraEnvs:
   # Add other necessary env vars if Kibana needs them e.g. ELASTICSEARCH_SSL_VERIFICATIONMODE: "certificate"
 
 # Volume mounts for the Elasticsearch CA Certificate
-extraVolumeMounts:
-  - name: elasticsearch-certs
-    mountPath: /usr/share/kibana/config/certs
-    readOnly: true
-extraVolumes:
-  - name: elasticsearch-certs
-    secret:
-      secretName: elasticsearch-master-certs # Secret containing ES CA cert
+
+#extraVolumeMounts:
+ # - name: elasticsearch-certs
+ #   mountPath: /usr/share/kibana/config/certs
+ #   readOnly: true
+#extraVolumes:
+#  - name: elasticsearch-certs
+#    secret:
+#      secretName: elasticsearch-master-certs # Secret containing ES CA cert
 
 # If your chart has specific top-level keys for SSL that work, you can use them too,
 # but env vars are often a reliable override.
