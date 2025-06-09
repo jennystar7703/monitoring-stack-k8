@@ -14,11 +14,8 @@ spec:
     helm:
       valueFiles:
         - values.yaml # Path to your values
-      # If you don't have custom values, you can omit valueFiles or point to an empty file.
-      # You can also set specific values directly here:
-      # values: |
-      #   grafana:
-      #     adminPassword: yourSuperSecretPassword
+      # Add this line to tell ArgoCD to skip CRD management
+      skipCrds: true # <--- ADD THIS LINE
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: monitoring # Target namespace for Prometheus stack
