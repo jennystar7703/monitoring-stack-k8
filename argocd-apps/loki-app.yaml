@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: loki-stack
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/jennystar7703/monitoring-stack-k8.git' 
+    targetRevision: HEAD
+    # installed - path to loki stack chart 
+    path: helm-charts/loki-stack 
+    helm:
+      valueFiles:
+        - ../../my-values/loki-values.yaml 
+      # has CRDs - manage them separately or skip with ArgoCD for applications
+      skipCrds: true 
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: monitoring 
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

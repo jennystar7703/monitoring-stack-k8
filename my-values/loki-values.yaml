@@ -1,0 +1,92 @@
+# my-values/loki-values.yaml
+# This chart installs Loki, Promtail, and Grafana.
+# Since you already have Grafana with kube-prometheus-stack,
+# we'll disable Grafana here and potentially Prometheus.
+# However, for Loki, you might want to enable Grafana plugin for Loki directly.
+
+# Disable the Grafana component if you're using the one from kube-prometheus-stack
+grafana:
+  enabled: false
+
+# Loki configuration
+loki:
+  serviceAccount:
+    create: true # Create a service account for Loki
+  storage:
+    # Default is usually ephemeral or in-memory, which is NOT for production.
+    # Use PersistentVolumeClaims for production.
+    # Ensure you have a StorageClass provisioned (e.g., 'local-path' or 'longhorn')
+    type: filesystem
+    filesystem:
+      pvc:
+        enabled: true
+        accessModes: ["ReadWriteOnce"]
+        size: "100Gi" # Adjust size as needed
+        storageClassName: "local-path" # Use your cluster's StorageClass
+
+  # You might need to adjust resource requests/limits based on your cluster and log volume
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "1Gi"
+    limits:
+      cpu: "1000m"
+      memory: "2Gi"
+
+  # Depending on the chart version, you might want to adjust retention or other settings
+  # For example:
+  # config:
+  #   chunk_store_config:
+  #     max_look_back_period: 720h # 30 days
+  #   compactor:
+  #     retention_enabled: true
+  #     retention_period: 720h # 30 days
+  #   table_manager:
+  #     retention_deletes_enabled: true
+  #     retention_period: 720h
+
+# Promtail configuration
+promtail:
+  enabled: true
+  serviceAccount:
+    create: true # Create a service account for Promtail
+  extraPorts:
+    - name: http-metrics
+      containerPort: 9080
+      protocol: TCP
+  # Ensure Promtail can discover logs and send to Loki
+  loki:
+    serviceName: loki # Default service name is usually 'loki'
+    url: http://loki.monitoring.svc.cluster.local:3100/loki/api/v1/push
+    # Make sure the Loki service name is correct and the port (3100)
+    # matches Loki's service configuration (default for push is 3100).
+    # Replace 'monitoring' with your Loki namespace if different.
+
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+    limits:
+      cpu: "200m"
+      memory: "256Mi"
+
+  # Important for getting logs from all nodes
+  daemonset:
+    hostNetwork: true
+    # On certain systems, you might need to specify nodeSelector or tolerations
+    # nodeSelector:
+    #   kubernetes.io/os: linux
+    # tolerations:
+    # - operator: Exists
+    #   effect: NoSchedule
+
+  # Agent mode for Promtail to collect logs
+  config:
+    snippets:
+      pipeline: |
+        - drop:
+            expression: "__meta_kubernetes_pod_container_name"
+            regex: "(?:loki|promtail|fluent-bit|grafana|kube-prometheus-stack).*"
+            # This drops logs from Loki/Promtail/Grafana/Prometheus components themselves
+            # to avoid a logging loop or excessive logging of monitoring components.
+            # Adjust regex to exclude any other logging components you don't want to send.
