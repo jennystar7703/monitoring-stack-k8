@@ -50,8 +50,9 @@ promtail:
   enabled: true
   serviceAccount:
     create: true # Create a service account for Promtail
+    
   extraPorts:
-    - name: http-metrics
+    http-metrics:
       containerPort: 9080
       protocol: TCP
   # Ensure Promtail can discover logs and send to Loki
